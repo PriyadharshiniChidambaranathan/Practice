@@ -166,7 +166,7 @@ public class ArrayOperations {
     }
 
     void searchInRange(int start, int end, int target,int[] arr){
-        if(start < 0 || start >= arr.length || end < 0 || end >=arr.length){
+        if(start < 0 || start >= arr.length || end < 0 || end >=arr.length || start > end){
             System.out.println("Invalid start / end value " );
             return;
         }
@@ -187,7 +187,7 @@ public class ArrayOperations {
     }
 
     void searchAllInRange(int start, int end, int target, int[] arr){
-        if(start < 0 || start >= arr.length || end < 0 || end >=arr.length){
+        if(start < 0 || start >= arr.length || end < 0 || end >=arr.length || start > end){
             System.out.println("Invalid start / end value " );
             return;
         }
@@ -207,7 +207,7 @@ public class ArrayOperations {
             }
         }
     }
-    
+
     void subArray(int start, int end, int[] arr){
         if(start < 0 || start >= arr.length || end < 0 || end > arr.length ){
             System.out.println("Invalid start / end values ");
