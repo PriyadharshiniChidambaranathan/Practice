@@ -14,17 +14,16 @@ class StringOperations{
         s.reverse(str);
         s.replaceChar('a', '*',str);
         s.isPalindrome("aabaa");
+        s.canFormPalindrome("geoesgs");
+        s.toInteger(str);
+        s.containsSubstring("naame", str);
 
-        //containsSubstring(String s)
-        //containsSubstringAll(String s)
-        //containsSubstringKth(String s, int k)
-                
-        //canFormPalindrome(String s)
-        //allPossiblePalindrome(String s)
-       
-        //toInteger(String s)
-        //replaceSubString(String target, String toReplace)
         
+        //containsSubstringAll(String s)
+        //containsSubstringKth(String s, int k)               
+        //allPossiblePalindrome(String s)        
+        //replaceSubString(String target, String toReplace)
+
     }
 
     void indexOf(char c,String s){
@@ -80,7 +79,7 @@ class StringOperations{
     }
 
     void subString(int start, int end,String s){
-        if(start < 0 || start >= s.length() || end < 0 || end >=s.length()){
+        if(start < 0 || start >= s.length() || end < 0 || end >=s.length() || start > end){
             System.out.println("Invalid start / end value " );
             return;
         }
@@ -156,6 +155,52 @@ class StringOperations{
         else{
             System.out.println(s+ " is not a palindrome.");
         }    
+    }
+
+    void canFormPalindrome(String s){
+        int[] count = new int[256];
+        int odd = 0;
+        for(int i = 0; i < s.length(); i++){
+            count[s.charAt(i)]++;
+        }
+        for(int i = 0; i < count.length;i++){
+            if((count[i] %2 )!= 0){
+                odd++;
+            }
+            if(odd > 1){
+                System.out.println("this string cannot form a palindrome ");
+                return;
+            }
+        }
+        System.out.println("Can form palindrome");
+    }
+
+    void toInteger(String s){
+        try{
+            System.out.println(Integer.valueOf(s));
+            //System.out.println(Integer.parseInt(s));
+        }
+        catch (Exception e){
+            System.out.println("Invalid string . Exception found : "+ e);
+        }
+        
+    }
+
+    void containsSubstring(String target, String s){
+        int j = 0;
+         for(int i = 0; i < s.length(); i++){
+            if(s.charAt(i) == target.charAt(j)){
+                while(j < target.length()){
+                    if(s.charAt(i) != target.charAt(j)){
+                        System.out.println("Not a substring .");
+                        return;
+                    }
+                    i++;j++;
+                }
+                System.out.println("Substring is present. ");
+                return;
+            }
+         }
     }
 
 
