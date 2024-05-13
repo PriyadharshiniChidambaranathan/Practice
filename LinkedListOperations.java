@@ -12,36 +12,36 @@ class LinkedList{
     Node head;
     int size = 0;
 
-    LinkedList add(int value,LinkedList ll){      
+    Node add(int value){      
         Node n = new Node(value);  
-        if(ll.head == null){
-            ll.head = n;
+        if(head == null){
+            head = n;
             size++;
         }
         else{
-            Node temp = ll.head;
+            Node temp = head;
             while(temp.next != null){
                temp = temp.next;
             }
             temp.next  =  n;
             size++;
         }       
-        return ll;
+        return head;
     }
 
-    void insertAt(int pos,int val,LinkedList ll){
+    Node insertAt(int pos,int val,LinkedList ll){
         Node n = new Node(val);
         if(pos < 0 || pos >= size){
-            return;
+            return head;
         }
         if(ll.head == null){
             n = ll.head;
-            return;
+            return head;
         }   
         if(pos == 0 ){
             n.next = ll.head;
             ll.head = n;
-            return;
+            return head;
 
         }
         Node temp = ll.head;
@@ -51,7 +51,7 @@ class LinkedList{
         n.next = temp.next;
         temp.next = n;
               
-        return ;
+        return head;
     }
 
 
@@ -89,7 +89,7 @@ class LinkedList{
         return result;
     }
 
-    void print(){
+    void print(Node head){
         if(head == null){
             return;
         }
@@ -101,44 +101,46 @@ class LinkedList{
         System.out.println("\n");
     }
 
-    void deleteNode(){  //deleting last node;
+    Node deleteNode(){  //deleting last node;
         Node temp = head;
         while(temp.next.next != null){
             temp = temp.next;
         }
         temp.next= null;
+        return head;
     }
 
-    void deleteAt(int pos){ 
+    Node deleteAt(int pos){ 
         if(head == null){
-            return;
+            return head;
         }
         if(pos >= size){
             System.out.println("Invalid Index;");
-            return;
+            return head;
         }
         if(pos == 0){
             head = head.next;
-            return;
+            return head;
         }
         if(pos == size-1){
             deleteNode();
-            return;
+            return head;
         }
 
         Node temp = head;
         int index = 0;     
         while(temp.next != null){
             if(index == pos-1){
-                temp.next = null;
+                temp.next = temp.next.next;
                 break;
             }
             temp = temp.next;
             index++;
         }
+        return head;
     }
 
-    void reverse(){        
+    Node reverse(){        
         Node prev = null, next =null;
         Node current = head;
         while(current != null){
@@ -147,7 +149,131 @@ class LinkedList{
             prev = current;
             current = next;
         } 
-        head = prev;       
+        head = prev;    
+        return head;   
+    }
+
+    Node swap(int posX, int posY){
+        if(posX >= size || posY >=size){
+            System.out.println("Invalid Position. ");
+            return head;
+        }
+        if(head == null){
+            return head;
+        }
+        if(posX == posY){
+            return head;
+        }
+        Node temp = head;
+        Node X_add = null;
+        Node Y_add = null;
+        int index = 0;
+        while(temp != null){
+            if(index == posX){
+                X_add = temp;
+                index = 0;
+                temp = head;
+                break;
+            }
+            index++;
+            temp = temp.next;
+        }
+
+        while(temp != null){
+            if(index == posY){
+                Y_add = temp;
+                index = 0;
+                temp = head;
+                break;
+            }
+            index++;
+            temp = temp.next;
+        }
+
+        int intermi = X_add.value;
+        System.out.println(intermi);
+        X_add.value = Y_add.value;
+        Y_add.value = intermi;
+        return head;
+    }
+
+    Node reverseFromPos(int pos){
+        if(pos >= size){
+            return head;
+        }
+        if(head == null){
+            return head;
+        }
+        if(pos == 0){
+            reverse();
+        }
+        Node temp = head;
+        int index = 0;
+        while(temp != null){
+            if(index == pos-1){
+                Node current = temp.next;
+                Node prev = null, next = null;
+                while(current != null){
+                    next = current.next;
+                    current.next = prev;
+                    prev = current;
+                    current = next;
+                }
+                temp.next = prev;
+                break;
+            }
+            index++;
+            temp = temp.next;
+        } 
+        return head;
+
+    }
+
+    Node subList(int start , int end){
+        if(start > end || start >= size || head == null || (start == 0 && end == size-1)){
+            return head;
+        }
+        Node subhead = null;
+        Node temp = head;
+        int index = 0;
+        while(temp != null){
+            if(index == start){
+                subhead = temp;
+                if(index == end){
+                    break;
+                }
+                temp = temp.next;
+                index++;
+            }
+            temp = temp.next;
+            index++;
+        }
+        return subhead;
+    }
+
+    void sortSwap(Node n1,Node n2){
+        int temp = n1.value;
+        n1.value = n2.value;
+        n2.value = temp;
+    }
+    Node sort(){
+        boolean isSwapped = false;
+        Node current;
+        if(head == null){
+            return head;
+        }
+        do{
+            isSwapped = false;
+            current = head;
+            while(current.next != null){
+                if(current.value > current.next.value){
+                    sortSwap(current, current.next);
+                    isSwapped = true;
+                }
+                current = current.next;
+            }
+        }while(isSwapped);
+        return head;
     }
 
 
@@ -164,23 +290,40 @@ public class LinkedListOperations {
     public static void main(String[] args){
         
         LinkedList ll = new LinkedList();
-        ll= ll.add(23,ll);
-        ll = ll.add(29,ll);
-        ll = ll.add(16,ll);
-        ll = ll.add(12,ll);
-        ll = ll.add(16,ll);
-        ll.insertAt(2,96,ll);  // negative values check to be done.
-        ll.print();
+        Node head = null;
+        head = ll.add(23);
+        head = ll.add(29);
+        head =ll.add(16);
+        head = ll.add(12);
+        head = ll.add(16);
+        head = ll.insertAt(2,96,ll);  
+        ll.print(head);
         int target = 16;
         int found = ll.search(target);
         System.out.println("Element "+target+" found at index : "+found);
         List<Integer> all_occurence = ll.findAll(target);  
         System.out.println("Elements "+target+" found at indices  : "+all_occurence);
-        ll.reverse();
-        ll.print();
-        ll.deleteNode();
-        ll.deleteAt(3); 
-        ll.print();      
+        Node reveresed = ll.reverse();
+        System.out.println("Reversed LinkedList : ");
+        ll.print(reveresed);
+        Node del = ll.deleteNode();
+        System.out.println("Deleted last Node : ");
+        ll.print(del);
+        Node deletePos = ll.deleteAt(3); 
+        System.out.println("After deleting at specific position : "); 
+        ll.print(deletePos);  
+        Node swapped = ll.swap(2,2);    
+        System.out.println("After Swapping : ");
+        ll.print(swapped);
+        Node reversedPos = ll.reverseFromPos(0);
+        System.out.println("List after Reversing from specific index : ");
+        ll.print(reversedPos);
+        Node sublist = ll.subList(1,4);
+        System.out.println("Printing sublist.");
+        ll.print(sublist);
+        Node sorted = ll.sort();
+        System.out.println("After sorting : ");
+        ll.print(sorted);
         
         
        
@@ -190,14 +333,15 @@ public class LinkedListOperations {
         // SubList from index i..j
         // containsSubList
         // Merge list sorted
-        // ReverseList(startPosition)
-        // swap(int posX, int posY)
+
+     
 
         // Rotate array clockwise n times
         // Rotate array anticlockwise n times
 
         // splitList
         // splitList(splitPosition)
+
         // map() (will explain what is this)
         // Filter (will explain what is this)
         // maxWindow(will explain what is this)
