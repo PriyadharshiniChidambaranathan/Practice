@@ -1,178 +1,205 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+
+// containsSubstringAll(String s)
+// containsSubstringKth(String s, int k)
+
+
 
 class StringOperations{
-    public static void main(String[] args){
-        String str = "My name is Priyadharshini";
-        StringOperations s = new StringOperations();
-        s.indexOf('a',str);
-        s.lastIndexOf('z',str);
-        s.allIndexOf('a',str);
-        s.subString(3, 8,str);
-        s.convertToUpperCase(str);
-        s.convertToLowerCase( str);
-        s.reverse(str);
-        s.replaceChar('a', '*',str);
-        s.isPalindrome("aabaa");
-        s.canFormPalindrome("geoesgs");
-        s.toInteger(str);
-        s.containsSubstring("naame", str);
+    public static void main(String [] args){
 
+        String given = "Welcome to programming in java.";
+        stringMethodImplementation smi = new stringMethodImplementation();
+
+        char target = 'm';
+        int index = smi.indexOf(target,given);
+        System.out.println("First Index of "+target + " : "+index);
+
+        int last_index = smi.lastIndexOf(target,given);
+        System.out.println("Last Index of "+target + " : "+last_index);
+
+        List<Integer> indices = smi.allIndexOf(target, given);
+        System.out.println("All Index of "+target + " : "+indices);
+
+        int start = 3, end =19;
+        String substring_created = smi.subString(start, end, given);
+        System.out.println("Substring created : "+substring_created); 
+
+        String sub = "toprogr";
+        boolean contains_sub = smi.containsSubstring(sub,given);
+        System.out.println("Contains substring : "+contains_sub);
+
+        String upper = smi.convertToUpperCase(given);
+        System.out.println("In upper case : "+upper);
+
+        String lower = smi.convertToLowerCase(given);
+        System.out.println("In lowercase : "+lower);
+
+        boolean palindrome = smi.isPalindrome(given);
+        System.out.println("Is PAlindrome : "+ palindrome);
+
+        String rev = smi.reverse(given);
+        System.out.println("Reversed string : "+rev);
+
+        String char_replaced = smi.replaceCharacter('*','e',given);
+        System.out.println("Replaced string : "+char_replaced);
+
+        boolean can_Form_Palindrome = smi.canFormPalindrome(given);
+        System.out.println("Can forfm palindrome : " +can_Form_Palindrome);
+
+        smi.toInteger("43567");
         
-        //containsSubstringAll(String s)
-        //containsSubstringKth(String s, int k)               
-        //allPossiblePalindrome(String s)        
-        //replaceSubString(String target, String toReplace)
+        String to_replace = "java", replace_with = "python";
+        String replacedString = smi.replaceSubString(given,to_replace, replace_with);
+        System.out.println("String after replacing "+to_replace+" with "+replace_with+ " is : "+replacedString);
+
+        List<String> palindrome_substrings = smi.allPossiblePalindrome("welcometoprogramminginjava");
+        System.out.println("All palindromes in give string : "+palindrome_substrings);
 
     }
+}
 
-    void indexOf(char c,String s){
-        int index = -1;
+class stringMethodImplementation{
+
+    int indexOf(char c, String s){
+        for(int i = 0 ; i < s.length(); i++){
+            if(s.charAt(i) == c){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    int lastIndexOf(char c, String s){
+        for(int i = s.length()-1; i >=0; i--){
+            if(s.charAt(i) == c){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    List<Integer> allIndexOf(char c, String s){
+        List<Integer> indices = new ArrayList<Integer>();
         for(int i = 0; i < s.length(); i++){
-            char val = s.charAt(i);
-            if(val == c){
-                index = i;
-                break;
+            if(s.charAt(i) == c){
+                indices.add(i);
             }
         }
-        if(index == -1){
-            System.out.println("Element not found .");          
-        }
-        else{
-            System.out.println("Element found at index : "+ index);
-        }
+        return indices;
     }
 
-    void lastIndexOf(char c, String s){
-        int index = -1;
-        for(int i = 0; i < s.length(); i++){
-            char val = s.charAt(i);
-            if(val == c){
-                index = i;
-            }
+    String subString(int start, int end, String s){
+        if(start < 0 || end > s.length() || end-start < 0){
+            return " Invalid arguments";
         }
-        if(index == -1){
-            System.out.println("Element not found .");          
+        if(start == 0 && end == s.length()-1){
+            return s;
         }
-        else{
-            System.out.println("Element found at index : "+ index);
+        String result  = "";
+        for(int i = start;i < end; i++){
+            result+=s.charAt(i);            
         }
+        return result;
     }
 
-    void allIndexOf(char c, String s){
-        List<Integer> index = new ArrayList<Integer>();
-        for(int i = 0; i < s.length(); i++){
-            char val = s.charAt(i);
-            if(val == c){
-                index.add(i);
-            }
+    boolean containsSubstring(String sub, String s){
+        if(sub.length() > s.length()){
+            return false;
         }
-        if(index.size() == 0){
-            System.out.println("Element not found .");          
-        }
-        else{
-            System.out.println("Element found at indices : ");
-            for(int i : index){
-                System.out.print(i+" ");
-            }
-        }
-    }
+        int i = 0, j = 0 ;
+        while( i < s.length() && j < sub.length()){
+            if(s.charAt(i) == sub.charAt(j)){
+                i++;
+                j++;
 
-    void subString(int start, int end,String s){
-        if(start < 0 || start >= s.length() || end < 0 || end >=s.length() || start > end){
-            System.out.println("Invalid start / end value " );
-            return;
-        }
-        StringBuilder  result = new StringBuilder();
-        for(int i = start; i < end; i++){
-            result.append(s.charAt(i));
-        }
-        //System.out
-        System.out.println(result.toString());
-    }
-
-    void convertToUpperCase(String s){
-        StringBuilder result = new StringBuilder();
-        for(int i = 0 ; i < s.length();i++){
-            char c = s.charAt(i);
-            if(c >= 'A' && c <='Z'){
-                result.append(c);
-            }
-            else if(c == ' '){
-                result.append(' ');
+                if(j == sub.length()){
+                    return true;
+                }
             }
             else{
-                result.append((char)(c - 32));
+                i++;
+                j = 0;
             }
         }
-        System.out.println(result.toString());
+        return false;
     }
 
-    void convertToLowerCase(String s){
-        StringBuilder result = new StringBuilder();
-        for(int i = 0 ; i < s.length();i++){
+    String convertToUpperCase(String s){
+        StringBuilder res = new StringBuilder(); 
+        for(int i = 0; i < s.length(); i++){
             char c = s.charAt(i);
-            if(c >= 'a' && c <='z'){
-                result.append(c);
-            }
-            else if(c == ' '){
-                result.append(' ');
+            if(c >= 'a' && c<='z'){
+                res.append((char)(c-32));
             }
             else{
-                result.append((char)(c + 32));
+                res.append(c);
             }
         }
-        System.out.println(result.toString());
+        return res.toString();
     }
 
-    void reverse(String s){
-        StringBuilder result = new StringBuilder();
-        for(int i = s.length()-1; i >= 0;i--){
-            result.append(s.charAt(i));
-        }
-        System.out.println(result.toString());
-    }
-
-    void replaceChar(char target, char replace,String s){
-        char[] result = s.toCharArray();
-        for(int i = 0 ; i < result.length; i ++){
-            if(result[i] == target){
-                result[i] = replace;                
-            }
-        }
-        System.out.println(String.valueOf(result));
-    }
-
-    void isPalindrome(String s){
-        //StringBuilder original = new StringBuilder(s);
-        StringBuilder reverse = new StringBuilder();
-        for(int i = s.length()-1; i >= 0; i--){
-            reverse.append(s.charAt(i));
-        }
-        if(s.equals(reverse.toString())){
-            System.out.println(s+ " is a palindrome.");
-        }
-        else{
-            System.out.println(s+ " is not a palindrome.");
-        }    
-    }
-
-    void canFormPalindrome(String s){
-        int[] count = new int[256];
-        int odd = 0;
+    String convertToLowerCase(String s){
+        StringBuilder res = new StringBuilder();
         for(int i = 0; i < s.length(); i++){
-            count[s.charAt(i)]++;
-        }
-        for(int i = 0; i < count.length;i++){
-            if((count[i] %2 )!= 0){
-                odd++;
+            char c = s.charAt(i);
+            if(c >= 'A' && c<='Z'){
+                res.append((char)(c+32));
             }
-            if(odd > 1){
-                System.out.println("this string cannot form a palindrome ");
-                return;
+            else{
+                res.append(c);
             }
         }
-        System.out.println("Can form palindrome");
+        return res.toString();
+    }
+
+    boolean isPalindrome(String s){
+        int left = 0 , right = s.length()-1;
+        while(left < right){
+            if(s.charAt(left) != s.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    String reverse(String s){
+        StringBuilder res = new StringBuilder();
+        for(int i = s.length()-1; i >=0 ; i--){
+            char c = s.charAt(i);
+            res.append(c);
+        }
+        return res.toString();
+    }
+
+    String replaceCharacter(char replace ,char target, String s){
+        char[] c = s.toCharArray();
+        for(int i = 0; i < c.length; i++){
+            if(c[i] == target){
+                c[i] = replace;
+            }
+        }
+        return String.valueOf(c);
+    }
+
+    boolean canFormPalindrome(String s){
+        List<Character> res = new ArrayList<>();
+        for(int i=0; i < s.length(); i++){
+            char c = s.charAt(i);
+            if(res.contains(c)){
+                res.remove((Character)(c));
+            }
+            else{
+                res.add(c);
+            }
+        }
+        if((s.length() % 2 == 0 && res.size() == 0) || (s.length() % 2 == 1 && res.size() == 1)){
+            return true;
+        }
+        return false;
     }
 
     void toInteger(String s){
@@ -183,28 +210,37 @@ class StringOperations{
         catch (Exception e){
             System.out.println("Invalid string . Exception found : "+ e);
         }
-        
     }
 
-    void containsSubstring(String target, String s){
-        int j = 0;
-         for(int i = 0; i < s.length(); i++){
-            if(s.charAt(i) == target.charAt(j)){
-                while(j < target.length()){
-                    if(s.charAt(i) != target.charAt(j)){
-                        System.out.println("Not a substring .");
-                        return;
-                    }
-                    i++;j++;
-                }
-                System.out.println("Substring is present. ");
-                return;
+    String replaceSubString(String s, String target, String toReplace){
+        return  s.replaceAll( target , toReplace);
+    }
+
+    boolean isPalin(String s, int left, int right){
+        while(left < right){
+            if(s.charAt(left) != s.charAt(right)){
+                return false;
             }
-         }
+            left++;right--;
+        }
+        return true;
     }
-
-
-
-
-
+    List<String> allPossiblePalindrome(String s){
+        List<String> palindromes = new ArrayList<>();
+        int count = 0;
+        for(int i = 0; i < s.length(); i++){
+            for(int j = i; j < s.length(); j++){
+                if(isPalin(s,i,j)){
+                    String res = "";
+                    for(int k = i;k <= j; k++){
+                        res+=s.charAt(k);
+                    }
+                    palindromes.add(res);
+                    count++;
+                }
+            }
+        }
+        System.out.println("Count of Palindromes  : "+count);
+        return palindromes; 
+    }
 }
